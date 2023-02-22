@@ -1,9 +1,16 @@
+#!/usr/bin/env node
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
 import chalk from "chalk";
 import fs from 'fs';
 import pegaArquivo from "./index.js";
 import listaValidada from "./httpValida.js";
 
-const caminho = process.argv;
+const argv = yargs(hideBin(process.argv)).argv;
+
+const argumentos = argv;
 
 async function imprimeLista(valida, resultado, identificador = '') {
     if (valida) {
@@ -21,8 +28,8 @@ async function imprimeLista(valida, resultado, identificador = '') {
 }
 
 async function processaTexto(argumentos) {
-    const caminho = argumentos[2];
-    const valida = argumentos[3] === '--valida';
+    const caminho = argumentos.path;
+    const valida = argumentos.valida;
 
     try {
         fs.lstatSync(caminho);
@@ -50,4 +57,4 @@ async function processaTexto(argumentos) {
     }
 }
 
-processaTexto(caminho);
+processaTexto(argumentos);
