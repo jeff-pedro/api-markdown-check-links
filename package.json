@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "cli": "node ./src/cli.js ",
-    "cli:valida": "node ./src/cli.js --valida"
+    "cli": "node ./src/cli.js --path",
+    "cli:valida": "node ./src/cli.js --valida --path"
   },
   "keywords": [],
   "author": "",

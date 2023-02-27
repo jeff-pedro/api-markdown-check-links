@@ -2,14 +2,12 @@
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-
 import chalk from "chalk";
 import fs from 'fs';
 import pegaArquivo from "./index.js";
 import listaValidada from "./httpValida.js";
 
 const argv = yargs(hideBin(process.argv)).argv;
-
 const argumentos = argv;
 
 async function imprimeLista(valida, resultado, identificador = '') {
@@ -17,12 +15,14 @@ async function imprimeLista(valida, resultado, identificador = '') {
         console.log(
             chalk.yellow('lista validada'),
             chalk.black.bgGreen(identificador),
-            await listaValidada(resultado));
+            await listaValidada(resultado)
+        );
     } else {
         console.log(
             chalk.yellow('lista de links'),
             chalk.black.bgGreen(identificador),
-            resultado);
+            resultado
+        );
     }
     
 }
