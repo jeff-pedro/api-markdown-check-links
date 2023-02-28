@@ -7,7 +7,41 @@ import fs from 'fs';
 import pegaArquivo from "./index.js";
 import listaValidada from "./httpValida.js";
 
-const argv = yargs(hideBin(process.argv)).argv;
+// cli arguments config
+const argv = yargs(hideBin(process.argv))
+    .usage('Usage: $0 <command> [options]')
+    .command([
+        {
+            command: '--path <file_path>',
+            describe: 'List URLs founded in a markdown file'
+        }, {
+            command: '--path <file_path> --validate',
+            describe: 'Validade URLs in a markdown file'
+        }
+    ])
+    .options({
+        'path': {
+            alias: 'p',
+            describe: 'provide a path to file',
+            demandOption: true,
+            nargs: 1,
+            type: 'string'
+        },
+        'validate': {
+            describe: 'list URLs validated',
+            type: 'boolean'
+        }
+    })
+    .example([
+        ['$0 --path ./files/text.md', 'List URLs in the given file'],
+        ['$0 --path ./files/text.md --validate', 'List URLs validated']
+    ])
+    .showHelpOnFail(false, 'Specify --help for available options')
+    .help()
+    .alias('h', 'help')
+    .epilog('copyright 2023')
+    .argv;
+
 const argumentos = argv;
 
 async function imprimeLista(valida, resultado, identificador = '') {
@@ -24,12 +58,12 @@ async function imprimeLista(valida, resultado, identificador = '') {
             resultado
         );
     }
-    
+
 }
 
 async function processaTexto(argumentos) {
     const caminho = argumentos.path;
-    const valida = argumentos.valida;
+    const valida = argumentos.validate;
 
     try {
         fs.lstatSync(caminho);
@@ -37,7 +71,7 @@ async function processaTexto(argumentos) {
         if (erro.code === 'ENOENT') {
             console.log('arquivo ou diretório não existe.');
             return;
-        } 
+        }
 
         if (erro.code === 'ERR_INVALID_ARG_TYPE') {
             console.log('nenhum caminho foi passado como argumento.');
@@ -47,7 +81,7 @@ async function processaTexto(argumentos) {
 
     if (fs.lstatSync(caminho).isFile()) {
         const resultado = await pegaArquivo(caminho);
-        imprimeLista(valida, resultado); 
+        imprimeLista(valida, resultado);
     } else if (fs.lstatSync(caminho).isDirectory()) {
         const arquivos = await fs.promises.readdir(caminho);
         arquivos.forEach(async (nomeDeArquivo) => {
