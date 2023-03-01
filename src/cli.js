@@ -4,11 +4,12 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import chalk from "chalk";
 import fs from 'fs';
-import pegaArquivo from "./index.js";
-import listaValidada from "./httpValida.js";
+import getFile from "./index.js";
+import validatedList from "./httpValidate.js";
+import { fileOrDirectoryNotFound, argumentError } from './error.js';
 
 // cli arguments config
-const argv = yargs(hideBin(process.argv))
+const args = yargs(hideBin(process.argv))
     .usage('Usage: $0 <command> [options]')
     .command([
         {
@@ -22,19 +23,19 @@ const argv = yargs(hideBin(process.argv))
     .options({
         'path': {
             alias: 'p',
-            describe: 'provide a path to file',
+            describe: 'Provide a path to file',
             demandOption: true,
             nargs: 1,
             type: 'string'
         },
         'validate': {
-            describe: 'list URLs validated',
+            describe: 'List validated URLs',
             type: 'boolean'
         }
     })
     .example([
         ['$0 --path ./files/text.md', 'List URLs in the given file'],
-        ['$0 --path ./files/text.md --validate', 'List URLs validated']
+        ['$0 --path ./files/text.md --validate', 'List validated URLs']
     ])
     .showHelpOnFail(false, 'Specify --help for available options')
     .help()
@@ -42,53 +43,51 @@ const argv = yargs(hideBin(process.argv))
     .epilog('copyright 2023')
     .argv;
 
-const argumentos = argv;
-
-async function imprimeLista(valida, resultado, identificador = '') {
-    if (valida) {
+async function printList(validate, result, identifier = '') {
+    if (validate) {
         console.log(
-            chalk.yellow('lista validada'),
-            chalk.black.bgGreen(identificador),
-            await listaValidada(resultado)
+            chalk.yellow('list validated'),
+            chalk.black.bgGreen(identifier),
+            await validatedList(result)
         );
     } else {
         console.log(
-            chalk.yellow('lista de links'),
-            chalk.black.bgGreen(identificador),
-            resultado
+            chalk.yellow('links list'),
+            chalk.black.bgGreen(identifier),
+            result
         );
     }
 
 }
 
-async function processaTexto(argumentos) {
-    const caminho = argumentos.path;
-    const valida = argumentos.validate;
+async function processText(args) {
+    const path = args.path;
+    const validate = args.validate;
 
     try {
-        fs.lstatSync(caminho);
-    } catch (erro) {
-        if (erro.code === 'ENOENT') {
-            console.log('arquivo ou diretório não existe.');
+        fs.lstatSync(path);
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            console.log(fileOrDirectoryNotFound(err));
             return;
         }
 
-        if (erro.code === 'ERR_INVALID_ARG_TYPE') {
-            console.log('nenhum caminho foi passado como argumento.');
+        if (err.code === 'ERR_INVALID_ARG_TYPE') {
+            argumentError(err);
             return;
         }
     }
 
-    if (fs.lstatSync(caminho).isFile()) {
-        const resultado = await pegaArquivo(caminho);
-        imprimeLista(valida, resultado);
-    } else if (fs.lstatSync(caminho).isDirectory()) {
-        const arquivos = await fs.promises.readdir(caminho);
-        arquivos.forEach(async (nomeDeArquivo) => {
-            const lista = await pegaArquivo(`${caminho}/${nomeDeArquivo}`);
-            imprimeLista(valida, lista, nomeDeArquivo);
+    if (fs.lstatSync(path).isFile()) {
+        const listLinks = await getFile(path);
+        printList(validate, listLinks);
+    } else if (fs.lstatSync(path).isDirectory()) {
+        const files = await fs.promises.readdir(path);
+        files.forEach(async (fileName) => {
+            const listLinks = await getFile(`${path}/${fileName}`);
+            printList(validate, listLinks, fileName);
         });
     }
 }
 
-processaTexto(argumentos);
+processText(args);
