@@ -9,7 +9,7 @@
   },
   "preferGlobal": true,
   "type": "module",
-  "scripts"s: {
+  "scripts": {
     "cli": "node ./src/cli.js --path",
     "cli:validate": "node ./src/cli.js --validate --path",
     "cli:help": "node ./src/cli.js --help"
