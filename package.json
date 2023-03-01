@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "cli": "node ./src/cli.js --path",
-    "cli:valida": "node ./src/cli.js --valida --path"
+    "cli:validate": "node ./src/cli.js --validate --path",
+    "cli:help": "node ./src/cli.js --help"
   },
   "keywords": [],
   "author": "",
