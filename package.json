@@ -1,16 +1,30 @@
 {
-  "name": "api-markdown-check-links",
+  "name": "md-links-validator",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Extract and validate the status of URLs in markdown files",
+  "keywords": ["markdown", "URL", "links"],
+  "main": "./cli.js",
+  "bin": {
+    "md-links-validator": "./cli.js"
+  },
+  "preferGlobal": true,
   "type": "module",
   "scripts": {
     "cli": "node ./src/cli.js --path",
     "cli:validate": "node ./src/cli.js --validate --path",
     "cli:help": "node ./src/cli.js --help"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-pedro/lib-md-links-validator.git"
+    
+  },
+  "author": "Jefferson Pedro <jeffersonpedro89@gmail.com>",
+  "homepage": "https://github.com/jeff-pedro/api-md-links-validator#readme",
+  "bugs": {
+    "url": "https://github.com/jeff-pedro/api-md-links-validator/issues",
+    "email": "jeffersonpedro89@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "chalk": "5.0.1",

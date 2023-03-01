@@ -1,5 +1,5 @@
-# API Markdown Check Links
-This API validate URLs in markdown files. 
+# API Markdown Links Validator
+This library validates URLs in markdown files. 
 
 ## Install
 ```
