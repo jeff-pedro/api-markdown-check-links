@@ -3,7 +3,7 @@ This library extract URLs in markdown files and check their status.
 
 ## Install
 ```
-npm install md-urls-validator
+npm install -g md-urls-validator
 ```
 
 ## Use
