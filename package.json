@@ -1,23 +1,23 @@
 {
   "name": "md-urls-validator",
-  "version": "1.0.0",
-  "description": "Extract and validate the status of URLs in markdown files",
-  "keywords": ["markdown", "URL", "links"],
-  "main": "./cli.js",
+  "version": "1.0.1",
+  "description": "A command-line program that extract and check URLs status in markdown files",
+  "main": "./src/cli.js",
   "bin": {
-    "md-urls-validator": "./cli.js"
+    "md-urls-validator": "./src/cli.js"
   },
+  "keywords": [
+    "markdown", 
+    "URL",
+    "links"],
   "preferGlobal": true,
   "type": "module",
   "scripts": {
-    "cli": "node ./src/cli.js --path",
-    "cli:validate": "node ./src/cli.js --validate --path",
-    "cli:help": "node ./src/cli.js --help"
+    "cli": "node ./src/cli.js --validate --path"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jeff-pedro/lib-md-urls-validator.git"
-    
   },
   "author": "Jefferson Pedro <jeffersonpedro89@gmail.com>",
   "homepage": "https://github.com/jeff-pedro/api-md-urls-validator#readme",

@@ -1,40 +1,28 @@
-# API Markdown Links Validator
-This library validates URLs in markdown files. 
+# Markdown URLs Validator
+This library extract URLs in markdown files and check their status. 
 
 ## Install
 ```
-npm install
+npm install md-urls-validator
 ```
 
 ## Use
 
 ### Validate
 ```
-./cli.js --path PATH --validate 
-```
-or
-```
-npm run cli:validate PATH
+md-urls-validator --path PATH --validate 
 ```
 
-### List links
+### List
 ```
-./cli.js --path PATH
-```
-or
-```
-npm run cli PATH
+md-urls-validator --path PATH
 ```
 
-### For Help!
+### Help!
 ```
-./cli.js --help
-```
-or
-```
-npm run cli:help
+md-urls-validator --help
 ```
 
 ## Technologies used
-- **yargs**:  used to parse cli arguments to objects
-- **chalk**:  to color and give more life :smiley:
+- **yargs**:  used to parse command-line arguments into objects
+- **chalk**:  to color and give more life to the cli :smiley:
